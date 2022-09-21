@@ -3,6 +3,12 @@ package com.dev.shopserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+// SpringBootApplication 동작 원리를
+/**
+ *
+ *
+ */
 @SpringBootApplication
 public class ShopServerApplication {
 
