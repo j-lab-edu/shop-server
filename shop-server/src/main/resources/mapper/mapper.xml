@@ -2,7 +2,20 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dev.shopserver.mapper.UserMapper">
-    <select id="getUserList" resultType="com.dev.shopserver.dto.UserDTO">
-        SELECT accountId, userId, password, name, phone, address, createDate, updateDate  FROM user
+    <select id="getUserInfo" resultType="com.dev.shopserver.dto.UserDTO">
+        SELECT accountId, userId, password, name, phone, address
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <insert id="register" parameterType="com.dev.shopserver.dto.UserDTO">
+        INSERT INTO user (userId, password, name, phone, address, createDate)
+        VALUES (#{userId}, #{password}, #{name}, #{phone}, #{address}, #{createDate})
+    </insert>
+
+    <select id="userIdCheck" resultType="int">
+        SELECT count(userId)
+        FROM user
+        WHERE userId = #{userId}
     </select>
 </mapper>

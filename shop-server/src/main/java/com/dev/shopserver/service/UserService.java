@@ -6,17 +6,15 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> getUserList();
-
     void register(UserDTO userDTO);
 
     UserDTO login(String userId, String password);
 
-    boolean isDuplicatedId(String id);
+    boolean isDuplicatedUserId(String userId);
 
     UserDTO getUserInfo(String userId);
 
     void updatePassword(String userId, String beforePassword, String afterPassword);
 
-    void deleteId(String id, String passWord);
+    void deleteUser(String userId, String password);
 }

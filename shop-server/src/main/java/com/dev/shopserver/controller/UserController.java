@@ -6,10 +6,7 @@ import com.dev.shopserver.service.impl.UserServiceImpl;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,12 +27,12 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public List<UserDTO> getUser(){
-        return userService.getUserList();
+    public UserDTO getUserInfo(String userId){
+        return userService.getUserInfo(userId);
     }
 
-    //@PostMapping("")
-    public void registerUser(UserDTO userDTO){
+    @PostMapping("/signUp")
+    public void signUp(@RequestBody UserDTO userDTO){
         userService.register(userDTO);
     }
 

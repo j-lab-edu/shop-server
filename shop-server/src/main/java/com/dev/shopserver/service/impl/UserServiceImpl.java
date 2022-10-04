@@ -17,30 +17,32 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
 
-    public List<UserDTO> getUserList(){
-        return userMapper.getUserList();
-    }
     public void register(UserDTO userDTO){
-
+        boolean isUserIdDup = isDuplicatedUserId(userDTO.getUserId());
+        if(isUserIdDup){
+            throw new RuntimeException("Duplicated userId");
+        }
+        userDTO.setCreateDate(new Date());
+        userMapper.register(userDTO);
     }
 
     public UserDTO login(String userId, String password){
         return null;
     }
 
-    public boolean isDuplicatedId(String id){
-        return true;
+    public boolean isDuplicatedUserId(String userId){
+        return userMapper.userIdCheck(userId) == 1;
     }
 
     public UserDTO getUserInfo(String userId){
-        return null;
+        return userMapper.getUserInfo(userId);
     }
 
     public void updatePassword(String userId, String beforePassword, String afterPassword){
 
     }
 
-    public void deleteId(String id, String passWord){
+    public void deleteUser(String userId, String passWord){
 
     }
 }
