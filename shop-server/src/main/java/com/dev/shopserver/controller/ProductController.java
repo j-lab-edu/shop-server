@@ -7,10 +7,7 @@ import com.dev.shopserver.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// RestController
-/**
- *
- */
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {

@@ -27,7 +27,7 @@ public class UserDTO {
     }
 
     public UserDTO(String userId, String password, String name, String phone, String address,
-                   Status status, Date createDate, Date updateDate, boolean isAdmin) {
+                   Status status, Date createDate, Date updateDate, boolean isSeller, boolean isAdmin) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -36,6 +36,7 @@ public class UserDTO {
         this.status = status;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.isSeller = isSeller;
         this.isAdmin = isAdmin;
     }
 }

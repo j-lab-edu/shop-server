@@ -2,7 +2,11 @@ package com.dev.shopserver.service;
 
 import com.dev.shopserver.dto.UserDTO;
 
+import java.util.List;
+
 public interface UserService {
+
+    List<UserDTO> getUserList();
 
     void register(UserDTO userDTO);
 
