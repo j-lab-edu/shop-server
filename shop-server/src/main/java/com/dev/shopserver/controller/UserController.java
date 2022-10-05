@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public UserDTO getUserInfo(String userId){
+    public UserDTO getUserInfo(@RequestBody String userId){
         return userService.getUserInfo(userId);
     }
 
@@ -52,7 +52,8 @@ public class UserController {
 
     }
 
-    public void deleteUser(){
-
+    @DeleteMapping("")
+    public void deleteUser(@RequestBody String userId){
+        userService.deleteUser(userId);
     }
 }

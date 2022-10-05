@@ -41,8 +41,7 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String userId, String beforePassword, String afterPassword){
 
     }
-
-    public void deleteUser(String userId, String passWord){
-
+    public void deleteUser(String userId){
+        userMapper.deleteUser(userId);
     }
 }
