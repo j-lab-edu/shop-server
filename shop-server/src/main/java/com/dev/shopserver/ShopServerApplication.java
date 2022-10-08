@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-// TODO: SpringBootApplication 동작 원리를
+//SpringBootApplication 동작 원리를
 /**
  * SpringBootConfiguration,  @ComponentScan, @EnableAutoConfiguration 의 역할을 수행.
  *
