@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dev.shopserver.mapper.UserMapper">
     <select id="getUserInfo" resultType="com.dev.shopserver.dto.UserDTO">
-        SELECT accountId, userId, password, name, phone, address
+        SELECT accountId, userId, password, name, phone, address, status
         FROM user
         WHERE userId = #{userId}
     </select>
@@ -23,4 +23,25 @@
         DELETE FROM user
         WHERE userId = #{userId}
     </delete>
+
+    <select id="findUser" resultType="com.dev.shopserver.dto.UserDTO">
+        SELECT accountId,
+               userId,
+               password,
+               name,
+               phone,
+               address,
+               status
+        FROM user
+        WHERE userId = #{userId}
+        AND password = #{password}
+        AND status != 'DELETED'
+    </select>
+
+    <update id="updatePassword" parameterType="com.dev.shopserver.dto.UserDTO">
+        UPDATE user
+        SET password = #{password},
+            updateDate = #{updateDate}
+        WHERE userId = #{userId}
+    </update>
 </mapper>

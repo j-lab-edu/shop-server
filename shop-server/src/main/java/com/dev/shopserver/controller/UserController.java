@@ -1,16 +1,15 @@
 package com.dev.shopserver.controller;
 
 
+import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
-// TODO: RestController
+//RestController
 /**
  * Controller와 ResponseBody가 결합된 어노테이션. 컨트롤러 클래스에 쓰임
  * 컨트롤러 클래스 하위 메서드에 @ResponseBody 어노테이션을 붙이지 않아도 문자열과 JSON 등을 전송할 수 있다.
@@ -21,18 +20,23 @@ import java.util.List;
 public class UserController {
     private final UserServiceImpl userService;
 
-    //@Autowired
     public UserController(UserServiceImpl userService){
         this.userService = userService;
     }
 
     @GetMapping("/user")
     public UserDTO getUserInfo(@RequestBody String userId){
+        if(userId == null || userId.length() == 0){
+            throw new NullPointerException("값을 입력해주세요.");
+        }
         return userService.getUserInfo(userId);
     }
 
     @PostMapping("/signUp")
-    public void signUp(@RequestBody UserDTO userDTO){
+    public void signUp(@RequestBody UserDTO userDTO) throws ShopServerException {
+        if (UserDTO.hasNullDataForSignUp(userDTO)){
+            throw new NullPointerException("필수 데이터를 입력 바랍니다.");
+        }
         userService.register(userDTO);
     }
 
@@ -44,16 +48,28 @@ public class UserController {
 
     }
 
-    public void userInfo(){
-
-    }
-
-    public void updatePassword(){
-
+    @PatchMapping("/updatePassword")
+    public void updatePassword(@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest){
+        String userId = updateUserPasswordRequest.getUserId();
+        String beforePassword = updateUserPasswordRequest.getBeforePassword();
+        String afterPassword = updateUserPasswordRequest.getAfterPassword();
+        userService.updatePassword(userId, beforePassword, afterPassword);
     }
 
     @DeleteMapping("")
     public void deleteUser(@RequestBody String userId){
+        if(userId == null || userId.length() == 0){
+            throw new NullPointerException("값을 입력해주세요.");
+        }
         userService.deleteUser(userId);
     }
+
+    @Getter
+    @Setter
+    private static class UpdateUserPasswordRequest{
+        private String userId;
+        private String beforePassword;
+        private String afterPassword;
+    }
 }
+

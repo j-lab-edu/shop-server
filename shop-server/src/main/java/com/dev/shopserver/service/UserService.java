@@ -1,12 +1,12 @@
 package com.dev.shopserver.service;
 
+import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 
-import java.util.List;
 
 public interface UserService {
 
-    void register(UserDTO userDTO);
+    void register(UserDTO userDTO) throws ShopServerException;
 
     UserDTO login(String userId, String password);
 
