@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO login(String userId, String password){
-        return null;
+        return userMapper.findUser(userId, password);
     }
 
     public boolean isDuplicatedUserId(String userId){

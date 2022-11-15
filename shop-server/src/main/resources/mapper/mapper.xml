@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev.shopserver.mapper.UserMapper">
+    <select id="getUserInfo" resultType="com.dev.shopserver.dto.UserDTO">
+        SELECT accountId, userId, password, name, phone, address, status
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <insert id="register" parameterType="com.dev.shopserver.dto.UserDTO">
+        INSERT INTO user (userId, password, name, phone, address, createDate)
+        VALUES (#{userId}, #{password}, #{name}, #{phone}, #{address}, #{createDate})
+    </insert>
+
+    <select id="userIdCheck" resultType="int">
+        SELECT count(userId)
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <delete id="deleteUser">
+        DELETE FROM user
+        WHERE userId = #{userId}
+    </delete>
+
+    <select id="findUser" resultType="com.dev.shopserver.dto.UserDTO">
+        SELECT accountId,
+               userId,
+               password,
+               name,
+               phone,
+               address,
+               status
+        FROM user
+        WHERE userId = #{userId}
+        AND password = #{password}
+        AND status != 'DELETED'
+    </select>
+
+    <update id="updatePassword" parameterType="com.dev.shopserver.dto.UserDTO">
+        UPDATE user
+        SET password = #{password},
+            updateDate = #{updateDate}
+        WHERE userId = #{userId}
+    </update>
+</mapper>

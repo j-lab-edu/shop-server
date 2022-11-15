@@ -6,7 +6,11 @@ import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 //RestController
@@ -41,12 +45,27 @@ public class UserController {
         return userDTO;
     }
 
-    public void login(){
+    @PostMapping("/login")
+    public HttpStatus login(@RequestBody LoginRequest loginRequest, HttpServletRequest req){
 
+        HttpSession session = req.getSession();
+        String userId = loginRequest.getUserId();
+        String password = loginRequest.getPassword();
+
+        UserDTO userInfo = userService.login(userId, password);
+
+        if(userInfo == null){
+            return HttpStatus.NOT_FOUND;
+        } else {
+            session.setAttribute("LOGIN_MEMBER_ID", userId);
+        }
+
+        return HttpStatus.OK;
     }
-
-    public void logout(){
-
+    @PutMapping("/logout")
+    public void logout(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        session.invalidate();
     }
 
     @PatchMapping("/updatepassword")
@@ -67,8 +86,8 @@ public class UserController {
     }
 
     /**
-     * 아래 클래스는 password update할 때 말고는 쓰지 않기 때문에
-     * Controller 클래스의 InnerCLass로 사용
+     * password update할 때 말고는 쓰지 않기 때문에
+     * Controller 클래스의 InnerClass로 사용
      */
     @Getter
     @Setter
@@ -76,6 +95,13 @@ public class UserController {
         private String userId;
         private String beforePassword;
         private String afterPassword;
+    }
+
+    @Getter
+    @Setter
+    private static class LoginRequest {
+        private String userId;
+        private String password;
     }
 }
 
