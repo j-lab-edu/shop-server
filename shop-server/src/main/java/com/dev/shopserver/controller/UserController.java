@@ -57,9 +57,18 @@ public class UserController {
         if(userInfo == null){
             return HttpStatus.NOT_FOUND;
         } else {
-            session.setAttribute("LOGIN_MEMBER_ID", userId);
+            UserDTO.Status userStatus = userInfo.getStatus();
+            if(userStatus == UserDTO.Status.DEFAULT) {
+                session.setAttribute("LOGIN_USER_ID", userId);
+            } else if (userStatus == UserDTO.Status.ADMIN) {
+                session.setAttribute("LOGIN_ADMIN_ID", userId);
+            } else {
+                session.setAttribute("LOGIN_SELLER_ID", userId);
+            }
+
         }
 
+        // 계정 유형에 따라 반환값이 달라야 하는가?
         return HttpStatus.OK;
     }
     @PutMapping("/logout")
