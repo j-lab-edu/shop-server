@@ -14,7 +14,7 @@ public interface UserService {
 
     UserDTO getUserInfo(String userId);
 
-    void updatePassword(String userId, String beforePassword, String afterPassword);
+    UserDTO updatePassword(String userId, String beforePassword, String afterPassword);
 
-    void deleteUser(String userId);
+    void deleteUser(String userId) throws ShopServerException;
 }

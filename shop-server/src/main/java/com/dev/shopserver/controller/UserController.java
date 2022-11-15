@@ -32,12 +32,13 @@ public class UserController {
         return userService.getUserInfo(userId);
     }
 
-    @PostMapping("/signUp")
-    public void signUp(@RequestBody UserDTO userDTO) throws ShopServerException {
+    @PostMapping("/signup")
+    public UserDTO signUp(@RequestBody UserDTO userDTO) throws ShopServerException {
         if (UserDTO.hasNullDataForSignUp(userDTO)){
             throw new NullPointerException("필수 데이터를 입력 바랍니다.");
         }
         userService.register(userDTO);
+        return userDTO;
     }
 
     public void login(){
@@ -48,22 +49,27 @@ public class UserController {
 
     }
 
-    @PatchMapping("/updatePassword")
-    public void updatePassword(@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest){
+    @PatchMapping("/updatepassword")
+    public UserDTO updatePassword(@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest){
         String userId = updateUserPasswordRequest.getUserId();
         String beforePassword = updateUserPasswordRequest.getBeforePassword();
         String afterPassword = updateUserPasswordRequest.getAfterPassword();
-        userService.updatePassword(userId, beforePassword, afterPassword);
+        return userService.updatePassword(userId, beforePassword, afterPassword);
     }
 
     @DeleteMapping("")
-    public void deleteUser(@RequestBody String userId){
+    public String deleteUser(@RequestBody String userId) throws ShopServerException {
         if(userId == null || userId.length() == 0){
             throw new NullPointerException("값을 입력해주세요.");
         }
         userService.deleteUser(userId);
+        return userId;
     }
 
+    /**
+     * 아래 클래스는 password update할 때 말고는 쓰지 않기 때문에
+     * Controller 클래스의 InnerCLass로 사용
+     */
     @Getter
     @Setter
     private static class UpdateUserPasswordRequest{

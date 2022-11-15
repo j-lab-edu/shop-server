@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserInfo(userId);
     }
 
-    public void updatePassword(String userId, String beforePassword, String afterPassword){
+    public UserDTO updatePassword(String userId, String beforePassword, String afterPassword){
         if(userId == null || beforePassword == null || afterPassword == null){
             throw new NullPointerException("모든 값을 입력해주세요.");
         }
@@ -52,8 +52,14 @@ public class UserServiceImpl implements UserService {
         userUpdateDTO.setUpdateDate(new Date());
         userUpdateDTO.setPassword(afterPassword);
         userMapper.updatePassword(userUpdateDTO);
+        return userUpdateDTO;
     }
-    public void deleteUser(String userId){
+    public void deleteUser(String userId) throws ShopServerException {
+        boolean isUserId = isDuplicatedUserId(userId);
+        if (!isUserId) {
+            throw new ShopServerException(ExceptionClass.USER,
+                    HttpStatus.CONFLICT, "유저 ID가 존재하지 않습니다.");
+        }
         userMapper.deleteUser(userId);
     }
 }

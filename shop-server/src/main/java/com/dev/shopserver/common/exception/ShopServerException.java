@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class ShopServerException extends Exception{
 
-    // serialUID 추가해야하는지?
-
     private Constants.ExceptionClass exceptionClass;
     private HttpStatus httpStatus;
 
@@ -16,10 +14,6 @@ public class ShopServerException extends Exception{
         this.exceptionClass = exceptionClass;
         this.httpStatus = httpStatus;
     }
-
-//    public Constants.ExceptionClass getExceptionClass(){
-//        return exceptionClass;
-//    }
 
     /**
      * HttpStatus의 코드를 반환한다.
