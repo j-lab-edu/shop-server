@@ -69,7 +69,8 @@ public class UserController {
     }
 
     @PatchMapping("/updatepassword")
-    public UserDTO updatePassword(@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest){
+    public UserDTO updatePassword(@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest)
+            throws ShopServerException {
         String userId = updateUserPasswordRequest.getUserId();
         String beforePassword = updateUserPasswordRequest.getBeforePassword();
         String afterPassword = updateUserPasswordRequest.getAfterPassword();

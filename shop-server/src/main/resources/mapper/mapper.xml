@@ -34,7 +34,6 @@
                status
         FROM user
         WHERE userId = #{userId}
-        AND password = #{password}
         AND status != 'DELETED'
     </select>
 

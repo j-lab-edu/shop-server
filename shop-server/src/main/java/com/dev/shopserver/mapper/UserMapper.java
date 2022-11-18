@@ -11,6 +11,6 @@ public interface UserMapper {
     int deleteUser(@Param("userId") String userId);
     int userIdCheck(String userId);
     int updatePassword(UserDTO userDTO);
-    UserDTO findUser(@Param("userId")String userId, @Param("password")String password);
+    UserDTO findUser(@Param("userId")String userId);
 
 }
