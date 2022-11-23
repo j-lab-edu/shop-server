@@ -31,6 +31,9 @@ dependencies {
 	//Jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
+	// SpringBoot Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	//AOP
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 
