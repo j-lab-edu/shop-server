@@ -15,7 +15,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Aspect
+ * 부가기능 로직을 구현한 'Advice' 와
+ * 부가기능을 적용할 위치인 'Pointcut' 을 합쳐 모듈화한 개념
+ *
+ * 'AnnotationAwareAspectJAutoProxyCreator' 라는 자동 프록시 생성기가
+ * Aspect 어노테이션이 달린 클래스를 'Advisor' 로 변환하여 저장
+ *
+ */
 @Aspect
 @Component
 public class LoginCheckAspect {

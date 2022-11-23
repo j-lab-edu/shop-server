@@ -4,9 +4,11 @@ package com.dev.shopserver.controller;
 import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public HttpStatus login(@RequestBody LoginRequest loginRequest, HttpServletRequest req){
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest loginRequest, HttpServletRequest req){
 
         HttpSession session = req.getSession();
         String userId = loginRequest.getUserId();
@@ -55,7 +57,7 @@ public class UserController {
         UserDTO userInfo = userService.login(userId, password);
 
         if(userInfo == null){
-            return HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             UserDTO.Status userStatus = userInfo.getStatus();
             if(userStatus == UserDTO.Status.DEFAULT) {
@@ -69,7 +71,7 @@ public class UserController {
         }
 
         // 계정 유형에 따라 반환값이 달라야 하는가?
-        return HttpStatus.OK;
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
     @PutMapping("/logout")
     public void logout(HttpServletRequest req){
@@ -112,5 +114,6 @@ public class UserController {
         private String userId;
         private String password;
     }
+
 }
 
