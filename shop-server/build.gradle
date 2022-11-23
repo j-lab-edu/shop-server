@@ -25,8 +25,18 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// MyBatis
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
-	// rumtimeOnly 'mysql:mysql-connector-java:8.0.25'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	//Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
+	// SpringBoot Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 }
 
 tasks.named('test') {
