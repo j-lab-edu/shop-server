@@ -1,6 +1,7 @@
 package com.dev.shopserver.controller;
 
 
+import com.dev.shopserver.aop.LoginCheck;
 import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
@@ -30,8 +31,9 @@ public class UserController {
         this.userService = userService;
     }
 
+    @LoginCheck(checkLevel = LoginCheck.UserLevel.USER)
     @GetMapping("/user")
-    public UserDTO getUserInfo(@RequestBody String userId){
+    public UserDTO getUserInfo(@RequestParam String userId){
         if(userId == null || userId.length() == 0){
             throw new NullPointerException("값을 입력해주세요.");
         }

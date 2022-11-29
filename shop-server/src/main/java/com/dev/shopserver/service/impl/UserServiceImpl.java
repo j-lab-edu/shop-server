@@ -6,10 +6,9 @@ import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.mapper.UserMapper;
 import com.dev.shopserver.service.UserService;
+import com.dev.shopserver.util.BcryptEncoder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,8 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final BcryptEncoder bcryptEncoder;
     final int IS_USERID = 1;
 
     public void register(UserDTO userDTO) throws ShopServerException {
@@ -33,14 +31,13 @@ public class UserServiceImpl implements UserService {
         }
         userDTO.setCreateDate(new Date());
         userDTO.setStatus(UserDTO.Status.DEFAULT);
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        System.out.println(userDTO.getPassword());
+        userDTO.setPassword(bcryptEncoder.encodePassword(userDTO.getPassword()));
         userMapper.register(userDTO);
     }
 
     public UserDTO login(String userId, String password){
         String encodedPassword = userMapper.getUserInfo(userId).getPassword();
-        if(passwordEncoder.matches(password, encodedPassword)){
+        if(bcryptEncoder.isMatch(password, encodedPassword)){
             return userMapper.findUser(userId);
         } else{
             return null;
@@ -60,11 +57,11 @@ public class UserServiceImpl implements UserService {
         UserDTO userUpdateDTO = userMapper.findUser(userId);
         if(userId == null || beforePassword == null || afterPassword == null){
             throw new NullPointerException("모든 값을 입력해주세요.");
-        } else if(!passwordEncoder.matches(beforePassword, userUpdateDTO.getPassword())){
+        } else if(!bcryptEncoder.isMatch(beforePassword, userUpdateDTO.getPassword())){
             throw new ShopServerException(ExceptionClass.USER, HttpStatus.BAD_REQUEST, "비밀번호가 잘못되었습니다.");
         } else {
             userUpdateDTO.setUpdateDate(new Date());
-            userUpdateDTO.setPassword(passwordEncoder.encode(afterPassword));
+            userUpdateDTO.setPassword(bcryptEncoder.encodePassword(afterPassword));
             userMapper.updatePassword(userUpdateDTO);
             return userUpdateDTO;
         }

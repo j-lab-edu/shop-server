@@ -31,8 +31,8 @@ dependencies {
 	//Jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
-	// SpringBoot Security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// bcrypt
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 
 	//AOP
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
