@@ -1,16 +1,15 @@
 package com.dev.shopserver.dto;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ProductDTO {
     public enum Status{
-        SELLING, SOLDOUT, DELETED
+        SELLING, DELETED
     }
     private int productId;
     private long price;
@@ -26,19 +25,21 @@ public class ProductDTO {
     private long productQuantity;
     private long purchaseCount;
 
+    @Builder
     public ProductDTO(@NonNull int productId, long price, int accountId, String productName, Status productStatus,
-                      Date updateDate, long deliveryCharge, long reviewCount, long totalStarRating, int categoryId,
-                      long productQuantity, long purchaseCount){
+                      Date createDate, Date updateDate, long deliveryCharge, long reviewCount, long totalStarRating,
+                      int categoryId, long productQuantity, long purchaseCount){
         this.productId = productId;
         this.price = price;
         this.accountId = accountId;
         this.productName = productName;
         this.productStatus = productStatus;
-        this.createDate = new Date();
+        this.createDate = createDate;
         this.updateDate = updateDate;
         this.deliveryCharge = deliveryCharge;
         this.reviewCount = reviewCount;
         this.totalStarRating = totalStarRating;
+        this.categoryId = categoryId;
         this.productQuantity = productQuantity;
         this.purchaseCount = purchaseCount;
     }
