@@ -6,11 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
-    UserDTO getUserInfo(@Param("userId") String userId);
     int register(UserDTO userDTO);
     int deleteUser(@Param("userId") String userId);
     int userIdCheck(String userId);
     int updatePassword(UserDTO userDTO);
     UserDTO findUser(@Param("userId")String userId);
-
+    int getAccountId(String userId);
 }

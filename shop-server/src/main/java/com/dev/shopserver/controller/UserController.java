@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @DeleteMapping("")
-    public String deleteUser(@RequestBody String userId) throws ShopServerException {
+    public String deleteUser(@RequestParam String userId) throws ShopServerException {
         if(userId == null || userId.length() == 0){
             throw new NullPointerException("값을 입력해주세요.");
         }

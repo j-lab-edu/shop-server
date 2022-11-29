@@ -2,6 +2,7 @@ package com.dev.shopserver.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.catalina.User;
 
 import java.util.Date;
 
@@ -9,7 +10,10 @@ import java.util.Date;
 @Setter
 public class UserDTO {
     public enum Status {
-        DEFAULT, ADMIN, SELLER, DELETED
+        DEFAULT,
+        ADMIN,
+        SELLER,
+        DELETED;
     }
     private int accountId;
     private String userId;
@@ -21,11 +25,9 @@ public class UserDTO {
     private Date createDate;
     private Date updateDate;
 
-    public UserDTO(){
-    }
-
-    public UserDTO(String userId, String password, String name, String phone, String address,
+    public UserDTO(int accountId, String userId, String password, String name, String phone, String address,
                    Status status, Date createDate, Date updateDate) {
+        this.accountId = accountId;
         this.userId = userId;
         this.password = password;
         this.name = name;

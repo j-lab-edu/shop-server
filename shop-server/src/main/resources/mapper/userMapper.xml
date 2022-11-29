@@ -2,15 +2,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dev.shopserver.mapper.UserMapper">
-    <select id="getUserInfo" resultType="com.dev.shopserver.dto.UserDTO">
-        SELECT accountId, userId, password, name, phone, address, status
-        FROM user
-        WHERE userId = #{userId}
-    </select>
-
     <insert id="register" parameterType="com.dev.shopserver.dto.UserDTO">
-        INSERT INTO user (userId, password, name, phone, address, createDate)
-        VALUES (#{userId}, #{password}, #{name}, #{phone}, #{address}, #{createDate})
+        INSERT INTO user (userId, password, name, phone, address, status, createDate)
+        VALUES (#{userId}, #{password}, #{name}, #{phone}, #{address}, #{status},#{createDate})
     </insert>
 
     <select id="userIdCheck" resultType="int">
@@ -25,13 +19,14 @@
     </delete>
 
     <select id="findUser" resultType="com.dev.shopserver.dto.UserDTO">
-        SELECT accountId,
-               userId,
-               password,
-               name,
-               phone,
-               address,
-               status
+        SELECT *
+        FROM user
+        WHERE userId = #{userId}
+        AND status != 'DELETED'
+    </select>
+
+    <select id="getAccountId" resultType="int">
+        SELECT accountId
         FROM user
         WHERE userId = #{userId}
         AND status != 'DELETED'
