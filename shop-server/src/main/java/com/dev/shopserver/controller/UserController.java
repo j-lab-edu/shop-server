@@ -8,6 +8,7 @@ import com.dev.shopserver.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     private final UserServiceImpl userService;
 
@@ -59,6 +61,7 @@ public class UserController {
         UserDTO userInfo = userService.login(userId, password);
 
         if(userInfo == null){
+            log.error("login ERROR! Check userId & password.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             UserDTO.Status userStatus = userInfo.getStatus();

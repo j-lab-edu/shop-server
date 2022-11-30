@@ -1,6 +1,7 @@
 package com.dev.shopserver.controller;
 
 
+import com.dev.shopserver.aop.LogExecutionTime;
 import com.dev.shopserver.aop.LoginCheck;
 import com.dev.shopserver.dto.ProductDTO;
 import com.dev.shopserver.service.impl.ProductServiceImpl;
@@ -31,6 +32,7 @@ public class ProductController {
         return new ResponseEntity<>(registerProduct, HttpStatus.CREATED);
     }
 
+    @LogExecutionTime
     @LoginCheck(checkLevel = LoginCheck.UserLevel.SELLER)
     @PostMapping("/get-products")
     public ResponseEntity<List<ProductDTO>> productInfo(@SessionAttribute("LOGIN_SELLER_ID") String userId){

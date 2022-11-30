@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <!--    해당 설정파일에서 사용하는 프로퍼티-->
+    <Properties>
+        <Property name="LOG_DATEFORMAT_PATTERN">{yyyy-MM-dd HH:mm:ss.SSS}</Property>
+        <Property name="LOG_LEVEL_PATTERN">{-%5p}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green,
+            DEBUG=green bold, TRACE=blue} %style{${sys:PID}}{magenta} [%15.15t] %style{%-40.40C{1.}}{cyan} :
+            %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</Property>
+    </Properties>
+    <!--    LogEvent를 전달해주는 Appender-->
+    <Appenders>
+        <Console name="Console_Appender" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}"/>
+        </Console>
+        <RollingFile name="File_Appender"
+                     fileName="./logs/test.log"
+                     filePattern="./logs/test_%d{yyyy-MM-dd}_%i.log.gz">
+            <PatternLayout pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1000KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10" fileIndex="min"/>
+        </RollingFile>
+    </Appenders>
+    <!--    실제 Logger-->
+    <Loggers>
+        <Root level="INFO" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+            <AppenderRef ref="File_Appender"/>
+        </Root>
+        <Logger name="com.dev.shopserver"
+                additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+            <AppenderRef ref="File_Appender" level="TRACE"/>
+        </Logger>
+    </Loggers>
+</Configuration>
