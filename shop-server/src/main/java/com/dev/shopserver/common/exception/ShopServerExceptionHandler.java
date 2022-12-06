@@ -1,5 +1,6 @@
 package com.dev.shopserver.common.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ ControllerAdvice는 모든 Controller에 대한 전역적으로 발생하는 예
 
 
  */
+@Slf4j
 @RestControllerAdvice
 public class ShopServerExceptionHandler {
 
@@ -29,6 +31,7 @@ public class ShopServerExceptionHandler {
         map.put("error type", e.getHttpStatusType());
         map.put("error code", Integer.toString(e.getHttpStatusCode()));
         map.put("message", e.getMessage());
+        log.error(e.getMessage());
 
         return new ResponseEntity<>(map, responseHeaders, e.getHttpStatus());
     }
