@@ -2,31 +2,26 @@ package com.dev.shopserver.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.User;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@ToString
 public class UserDTO {
-    public enum Status {
-        DEFAULT,
-        ADMIN,
-        SELLER,
-        DELETED;
-    }
     private int accountId;
     private String userId;
     private String password;
     private String name;
     private String phone;
     private String address;
-    private Status status;
+    private String status;
     private Date createDate;
     private Date updateDate;
 
     public UserDTO(int accountId, String userId, String password, String name, String phone, String address,
-                   Status status, Date createDate, Date updateDate) {
+                   String status, Date createDate, Date updateDate) {
         this.accountId = accountId;
         this.userId = userId;
         this.password = password;
