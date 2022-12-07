@@ -3,7 +3,6 @@ package com.dev.shopserver.aop;
 
 import com.dev.shopserver.common.Constants;
 import com.dev.shopserver.common.exception.ShopServerException;
-import com.dev.shopserver.dto.UserDTO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Aspect
@@ -35,7 +32,6 @@ public class LoginCheckAspect {
 
     @Around("@annotation(com.dev.shopserver.aop.LoginCheck) && @annotation(loginCheck)")
     public Object checkLogin(ProceedingJoinPoint proceedingJoinPoint, LoginCheck loginCheck) throws Throwable{
-        String userId = null;
         ServletRequestAttributes requestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
@@ -44,7 +40,7 @@ public class LoginCheckAspect {
         String userLevel = loginCheck.checkLevel().toString();
         Enumeration<String> keys = session.getAttributeNames();
 
-        userId = (String)session.getAttribute("LOGIN_USER_ID");
+        String userId = (String)session.getAttribute("LOGIN_USER_ID");
         if(userId==null){
             throw new ShopServerException(Constants.ExceptionClass.USER,
                     HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");

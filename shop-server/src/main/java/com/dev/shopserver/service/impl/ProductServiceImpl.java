@@ -23,11 +23,7 @@ public class ProductServiceImpl implements ProductService {
         int accountId = userMapper.getAccountId(userId);
         productDTO.setAccountId(accountId);
         productDTO.setProductStatus(ProductDTO.Status.SELLING);
-        productDTO.setCreateDate(new Date());
         productDTO.setUpdateDate(new Date());
-        productDTO.setReviewCount(0);
-        productDTO.setTotalStarRating(0);
-        productDTO.setPurchaseCount(0);
 
         productMapper.register(productDTO);
         return productDTO;

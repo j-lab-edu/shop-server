@@ -72,14 +72,14 @@ public class ProductController {
     @Getter
     @Setter
     private static class UpdateProductRequest{
-        private long price;
-        private String productName;
-        private ProductDTO.Status productStatus;
-        private long deliveryCharge;
-        private long reviewCount;
-        private long totalStarRating;
-        private int categoryId;
-        private long productQuantity;
-        private long purchaseCount;
+        private Long price = null;
+        private String productName = null;
+        private ProductDTO.Status productStatus = null;
+        private Long deliveryCharge = null;
+        private Long reviewCount = null;
+        private Long totalStarRating = null;
+        private Integer categoryId;
+        private Long productQuantity = null;
+        private Long purchaseCount = null;
     }
 }
