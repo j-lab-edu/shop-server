@@ -9,7 +9,7 @@ import java.util.Date;
 @Setter
 public class UserDTO {
     public enum Status {
-        DEFAULT, ADMIN, DELETED
+        DEFAULT, ADMIN, SELLER, DELETED
     }
     private int accountId;
     private String userId;
@@ -20,14 +20,12 @@ public class UserDTO {
     private Status status;
     private Date createDate;
     private Date updateDate;
-    private boolean isSeller;
-    private boolean isAdmin;
 
     public UserDTO(){
     }
 
     public UserDTO(String userId, String password, String name, String phone, String address,
-                   Status status, Date createDate, Date updateDate, boolean isAdmin) {
+                   Status status, Date createDate, Date updateDate) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -36,6 +34,11 @@ public class UserDTO {
         this.status = status;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.isAdmin = isAdmin;
+
+    }
+    public static boolean hasNullDataForSignUp(UserDTO userDTO){
+        return userDTO.getUserId() == null || userDTO.getPassword() == null
+                || userDTO.getAddress() == null || userDTO.getName() == null
+                || userDTO.getPhone()==null;
     }
 }
