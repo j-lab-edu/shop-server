@@ -12,9 +12,40 @@
         <Console name="ConsoleAppender" target="SYSTEM_OUT">
             <PatternLayout disableAnsi="false" pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}"/>
         </Console>
-        <RollingFile name="FileAppender"
-                     fileName="./logs/log4j2-file.log"
-                     filePattern="./logs/log4j2-file-%d{yyyy-MM-dd}_%i.log.gz">
+        <RollingFile name="DebugFileAppender"
+                     fileName="./logs/log4j2-debug.log"
+                     filePattern="./logs/log4j2-debug-%d{yyyy-MM-dd}_%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1000KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10" fileIndex="min"/>
+        </RollingFile>
+
+        <RollingFile name="InfoFileAppender"
+                     fileName="./logs/log4j2-info.log"
+                     filePattern="./logs/log4j2-info-%d{yyyy-MM-dd}_%i.log.gz">
+        <Filters>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+        </Filters>
+        <PatternLayout pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}" charset="UTF-8"/>
+        <Policies>
+            <SizeBasedTriggeringPolicy size="1000KB"/>
+            <TimeBasedTriggeringPolicy interval="1"/>
+        </Policies>
+        <DefaultRolloverStrategy max="10" fileIndex="min"/>
+        </RollingFile>
+
+        <RollingFile name="WarnFileAppender"
+                     fileName="./logs/log4j2-warn.log"
+                     filePattern="./logs/log4j2-warn-%d{yyyy-MM-dd}_%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
             <PatternLayout pattern="%d${LOG_DATEFORMAT_PATTERN} %highlight${LOG_LEVEL_PATTERN}" charset="UTF-8"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="1000KB"/>
@@ -44,14 +75,18 @@
         </Root>
 
         <Logger name="com.dev.shopserver" additivity="false">
-            <AppenderRef ref="FileAppender" level="DEBUG"/>
+            <AppenderRef ref="DebugFileAppender"/>
+            <AppenderRef ref="InfoFileAppender"/>
+            <AppenderRef ref="WarnFileAppender" />
             <AppenderRef ref="ErrorLogFileAppender" />
             <!-- 개발시에만 ConsoleAppender 사용 -->
             <AppenderRef ref="ConsoleAppender" />
         </Logger>
 
         <Logger name="org.springframework" additivity="false">
-            <AppenderRef ref="FileAppender" level="DEBUG"/>
+            <AppenderRef ref="DebugFileAppender"/>
+            <AppenderRef ref="InfoFileAppender"/>
+            <AppenderRef ref="WarnFileAppender" />
             <AppenderRef ref="ErrorLogFileAppender" />
         </Logger>
     </Loggers>

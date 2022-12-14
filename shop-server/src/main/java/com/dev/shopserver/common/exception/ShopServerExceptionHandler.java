@@ -18,6 +18,12 @@ ControllerAdvice는 모든 Controller에 대한 전역적으로 발생하는 예
 
 
  */
+
+/*
+ Slf4j는 로깅 프레임워크에 대한 인터페이스 역할을 하는 라이브러리.
+ log4j2와 같은 로깅 관련 라이브러리는 점차 발전되어왔으며 추후에 로깅 라이브러리를
+ 교체할 이슈가 생길 경우 코드는 바꾸지 않은 채 로깅 라이브러리만 변경하면 된다.
+ */
 @Slf4j
 @RestControllerAdvice
 public class ShopServerExceptionHandler {
@@ -31,7 +37,7 @@ public class ShopServerExceptionHandler {
         map.put("error type", e.getHttpStatusType());
         map.put("error code", Integer.toString(e.getHttpStatusCode()));
         map.put("message", e.getMessage());
-        log.error(e.getMessage());
+        log.info(e.getMessage());
 
         return new ResponseEntity<>(map, responseHeaders, e.getHttpStatus());
     }
