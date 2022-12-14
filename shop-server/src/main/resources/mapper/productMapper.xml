@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev.shopserver.mapper.ProductMapper">
+    <insert id="register" parameterType="com.dev.shopserver.dto.ProductDTO">
+        INSERT INTO product (price, accountId, productName, productStatus, createDate, updateDate, deliveryCharge,
+                             reviewCount, totalStarRating, productQuantity, purchaseCount)
+        VALUES (#{price}, #{accountId}, #{productName}, #{productStatus}, #{createDate}, #{updateDate}, #{deliveryCharge},
+                #{reviewCount}, #{totalStarRating}, #{productQuantity}, #{purchaseCount})
+    </insert>
+
+    <select id="getMyProducts" resultType="com.dev.shopserver.dto.ProductDTO">
+        SELECT productId,
+               productName,
+               price,
+               productStatus,
+               deliveryCharge,
+               reviewCount,
+               totalStarRating,
+               categoryId,
+               productQuantity,
+               purchaseCount,
+               createDate,
+               updateDate
+        FROM product
+        WHERE accountId = #{accountId}
+        AND productStatus != 'DELETED'
+    </select>
+
+    <update id="updateProduct" parameterType="com.dev.shopserver.dto.ProductDTO">
+        UPDATE product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="price!=null">price = #{price},</if>
+            <if test="productName!=null">productName = #{productName},</if>
+            <if test="productStatus!=null">productStatus = #{productStatus},</if>
+            <if test="updateDate!=null">updateDate = #{updateDate},</if>
+            <if test="reviewCount!=null">reviewCount = #{reviewCount},</if>
+            <if test="deliveryCharge!=null">deliveryCharge = #{deliveryCharge},</if>
+            <if test="totalStarRating!=null">totalStarRating = #{totalStarRating},</if>
+            <if test="categoryId!=null">categoryId = #{categoryId},</if>
+            <if test="productQuantity!=null">productQuantity = #{productQuantity},</if>
+            <if test="purchaseCount!=null">purchaseCount = #{purchaseCount}</if>
+        </trim>
+        WHERE productId = #{productId}
+        AND accountId = #{accountId}
+    </update>
+
+    <delete id="deleteProduct">
+        DELETE FROM product
+        WHERE accountId = #{accountId}
+        AND productId = #{productId}
+    </delete>
+</mapper>

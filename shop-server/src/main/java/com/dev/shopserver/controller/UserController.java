@@ -1,16 +1,19 @@
 package com.dev.shopserver.controller;
 
 
+import com.dev.shopserver.aop.LoginCheck;
 import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 //RestController
@@ -28,8 +31,9 @@ public class UserController {
         this.userService = userService;
     }
 
+    @LoginCheck(checkLevel = LoginCheck.UserLevel.USER)
     @GetMapping("/user")
-    public UserDTO getUserInfo(@RequestBody String userId){
+    public UserDTO getUserInfo(@RequestParam String userId){
         if(userId == null || userId.length() == 0){
             throw new NullPointerException("값을 입력해주세요.");
         }
@@ -46,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public HttpStatus login(@RequestBody LoginRequest loginRequest, HttpServletRequest req){
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest loginRequest, HttpServletRequest req){
 
         HttpSession session = req.getSession();
         String userId = loginRequest.getUserId();
@@ -55,12 +59,14 @@ public class UserController {
         UserDTO userInfo = userService.login(userId, password);
 
         if(userInfo == null){
-            return HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            session.setAttribute("LOGIN_MEMBER_ID", userId);
+            String userStatus = userInfo.getStatus();
+            session.setAttribute("LOGIN_USER_ID", userId);
+            session.setAttribute("LOGIN_USER_STATUS", userStatus);
         }
 
-        return HttpStatus.OK;
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
     @PutMapping("/logout")
     public void logout(HttpServletRequest req){
@@ -77,8 +83,9 @@ public class UserController {
         return userService.updatePassword(userId, beforePassword, afterPassword);
     }
 
+    @LoginCheck(checkLevel = LoginCheck.UserLevel.USER)
     @DeleteMapping("")
-    public String deleteUser(@RequestBody String userId) throws ShopServerException {
+    public String deleteUser(@RequestParam String userId) throws ShopServerException {
         if(userId == null || userId.length() == 0){
             throw new NullPointerException("값을 입력해주세요.");
         }
@@ -104,5 +111,6 @@ public class UserController {
         private String userId;
         private String password;
     }
+
 }
 

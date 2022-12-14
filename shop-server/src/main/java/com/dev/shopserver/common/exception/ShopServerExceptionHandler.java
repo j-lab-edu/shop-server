@@ -20,18 +20,6 @@ ControllerAdvice는 모든 Controller에 대한 전역적으로 발생하는 예
 @RestControllerAdvice
 public class ShopServerExceptionHandler {
 
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Map<String, String>> ExceptionHandler(Exception e){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-
-        Map<String, String> map = new HashMap<>();
-        map.put("error type", httpStatus.getReasonPhrase());
-        map.put("error code", "400");
-        map.put("message", "에러 발생");
-
-        return new ResponseEntity<>(map, responseHeaders, httpStatus);
-    }
 
     @ExceptionHandler(value = ShopServerException.class)
     public ResponseEntity<Map<String, String>> ExceptionHandler(ShopServerException e){
