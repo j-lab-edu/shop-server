@@ -24,7 +24,7 @@ public class ProductController {
 
     @LoginCheck(checkLevel = LoginCheck.UserLevel.SELLER)
     @PostMapping("/register")
-    public ResponseEntity<ProductDTO> registerProduct(@SessionAttribute("LOGIN_SELLER_ID") String userId,
+    public ResponseEntity<ProductDTO> registerProduct(@SessionAttribute("LOGIN_USER_ID") String userId,
                                                       @RequestBody ProductDTO productDTO){
         ProductDTO registerProduct = productService.register(userId, productDTO);
         return new ResponseEntity<>(registerProduct, HttpStatus.CREATED);
@@ -32,14 +32,14 @@ public class ProductController {
 
     @LoginCheck(checkLevel = LoginCheck.UserLevel.SELLER)
     @PostMapping("/get-products")
-    public ResponseEntity<List<ProductDTO>> productInfo(@SessionAttribute("LOGIN_SELLER_ID") String userId){
+    public ResponseEntity<List<ProductDTO>> productInfo(@SessionAttribute("LOGIN_USER_ID") String userId){
         List<ProductDTO> productList = productService.getProducts(userId);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
     @LoginCheck(checkLevel = LoginCheck.UserLevel.SELLER)
     @PatchMapping("/update/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@SessionAttribute("LOGIN_SELLER_ID") String userId,
+    public ResponseEntity<ProductDTO> updateProduct(@SessionAttribute("LOGIN_USER_ID") String userId,
                               @PathVariable(name = "productId") int productId,
                               @RequestBody UpdateProductRequest updateProductRequest){
         ProductDTO productUpdateDTO = ProductDTO.builder()
@@ -63,7 +63,7 @@ public class ProductController {
 
     @LoginCheck(checkLevel = LoginCheck.UserLevel.SELLER)
     @DeleteMapping("/delete/{productId}")
-    public void deleteProduct(@SessionAttribute("LOGIN_SELLER_ID") String userId,
+    public void deleteProduct(@SessionAttribute("LOGIN_USER_ID") String userId,
                                @PathVariable(name = "productId") int productId){
         productService.deleteProduct(userId, productId);
     }
@@ -71,14 +71,14 @@ public class ProductController {
     @Getter
     @Setter
     private static class UpdateProductRequest{
-        private long price;
-        private String productName;
-        private ProductDTO.Status productStatus;
-        private long deliveryCharge;
-        private long reviewCount;
-        private long totalStarRating;
-        private int categoryId;
-        private long productQuantity;
-        private long purchaseCount;
+        private Long price = null;
+        private String productName = null;
+        private ProductDTO.Status productStatus = null;
+        private Long deliveryCharge = null;
+        private Long reviewCount = null;
+        private Long totalStarRating = null;
+        private Integer categoryId;
+        private Long productQuantity = null;
+        private Long purchaseCount = null;
     }
 }

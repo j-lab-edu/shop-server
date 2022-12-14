@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
         boolean isUserIdDup = isDuplicatedUserId(userDTO.getUserId());
         if(isUserIdDup){
             throw new ShopServerException(ExceptionClass.USER,
-                    HttpStatus.BAD_REQUEST, "유저 ID가 중복되었습니다.");
+                    HttpStatus.BAD_REQUEST,
+                    "유저 등록을 할 수 없습니다. 유저 ID가 중복되었습니다.");
         }
         userDTO.setCreateDate(new Date());
         userDTO.setPassword(bcryptEncoder.encodePassword(userDTO.getPassword()));
@@ -61,7 +62,8 @@ public class UserServiceImpl implements UserService {
         if(userId == null || beforePassword == null || afterPassword == null){
             throw new NullPointerException("모든 값을 입력해주세요.");
         } else if(!bcryptEncoder.isMatch(beforePassword, userUpdateDTO.getPassword())){
-            throw new ShopServerException(ExceptionClass.USER, HttpStatus.BAD_REQUEST, "비밀번호가 잘못되었습니다.");
+            throw new ShopServerException(ExceptionClass.USER, HttpStatus.BAD_REQUEST,
+                    "비밀번호를 변경할 수 없습니다. 비밀번호가 잘못되었습니다.");
         } else {
             userUpdateDTO.setUpdateDate(new Date());
             userUpdateDTO.setPassword(bcryptEncoder.encodePassword(afterPassword));
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
         boolean isUserId = isDuplicatedUserId(userId);
         if (!isUserId) {
             throw new ShopServerException(ExceptionClass.USER,
-                    HttpStatus.CONFLICT, "유저 ID가 존재하지 않습니다.");
+                    HttpStatus.BAD_REQUEST, "유저 정보를 삭제할 수 없습니다. 유저 ID가 존재하지 않습니다.");
         }
         userMapper.deleteUser(userId);
     }

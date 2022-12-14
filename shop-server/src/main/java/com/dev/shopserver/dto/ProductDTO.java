@@ -11,24 +11,24 @@ public class ProductDTO {
     public enum Status{
         SELLING, DELETED
     }
-    private int productId;
-    private long price;
-    private int accountId;
+    private Integer productId;
+    private Long price;
+    private Integer accountId;
     private String productName;
     private Status productStatus;
     private Date createDate;
     private Date updateDate;
-    private long deliveryCharge;
-    private long reviewCount;
-    private long totalStarRating;
-    private int categoryId;
-    private long productQuantity;
-    private long purchaseCount;
+    private Long deliveryCharge;
+    private Long reviewCount;
+    private Long totalStarRating;
+    private Integer categoryId;
+    private Long productQuantity;
+    private Long purchaseCount;
 
     @Builder
-    public ProductDTO(@NonNull int productId, long price, int accountId, String productName, Status productStatus,
-                      Date createDate, Date updateDate, long deliveryCharge, long reviewCount, long totalStarRating,
-                      int categoryId, long productQuantity, long purchaseCount){
+    public ProductDTO(@NonNull Integer productId, Long price, Integer accountId, String productName, Status productStatus,
+                      Date createDate, Date updateDate, Long deliveryCharge, Long reviewCount, Long totalStarRating,
+                      Integer categoryId, Long productQuantity, Long purchaseCount){
         this.productId = productId;
         this.price = price;
         this.accountId = accountId;

@@ -5,7 +5,6 @@ import com.dev.shopserver.aop.LoginCheck;
 import com.dev.shopserver.common.exception.ShopServerException;
 import com.dev.shopserver.dto.UserDTO;
 import com.dev.shopserver.service.impl.UserServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 //RestController
@@ -64,18 +64,11 @@ public class UserController {
             log.error("login ERROR! Check userId & password.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            UserDTO.Status userStatus = userInfo.getStatus();
-            if(userStatus == UserDTO.Status.DEFAULT) {
-                session.setAttribute("LOGIN_USER_ID", userId);
-            } else if (userStatus == UserDTO.Status.ADMIN) {
-                session.setAttribute("LOGIN_ADMIN_ID", userId);
-            } else {
-                session.setAttribute("LOGIN_SELLER_ID", userId);
-            }
-
+            String userStatus = userInfo.getStatus();
+            session.setAttribute("LOGIN_USER_ID", userId);
+            session.setAttribute("LOGIN_USER_STATUS", userStatus);
         }
 
-        // 계정 유형에 따라 반환값이 달라야 하는가?
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
     @PutMapping("/logout")
@@ -93,6 +86,7 @@ public class UserController {
         return userService.updatePassword(userId, beforePassword, afterPassword);
     }
 
+    @LoginCheck(checkLevel = LoginCheck.UserLevel.USER)
     @DeleteMapping("")
     public String deleteUser(@RequestParam String userId) throws ShopServerException {
         if(userId == null || userId.length() == 0){
