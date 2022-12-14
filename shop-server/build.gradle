@@ -12,6 +12,11 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
+	all{
+		// log4j2와 logback 이 충돌하는 경우가 있어서 springboot 의 logback 을 제외
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
 }
 
 repositories {
@@ -36,6 +41,9 @@ dependencies {
 
 	//AOP
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+	//Log4j2
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
 }
 

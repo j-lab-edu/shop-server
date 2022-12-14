@@ -4,7 +4,6 @@ package com.dev.shopserver.controller;
 import com.dev.shopserver.aop.LoginCheck;
 import com.dev.shopserver.dto.ProductDTO;
 import com.dev.shopserver.service.impl.ProductServiceImpl;
-import com.dev.shopserver.service.impl.UserServiceImpl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
